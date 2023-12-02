@@ -17,7 +17,7 @@ You can check a full usage example inside [Maybe.test.ts](./src/Maybe.test.ts).
   const users: User[] = []
 
   function getUser(id: string) {
-    return Maybe(
+    return new Maybe(
       users.find(user => user.id);
     );
   }
@@ -48,17 +48,17 @@ You can check a full usage example inside [Maybe.test.ts](./src/Maybe.test.ts).
 You can check a full usage example inside [Try.test.ts](./src/Try.test.ts).
 
 ```ts
-const login = (email: string, password: string) => Try(async () => {
+const login = (email: string, password: string): Try<Token> => {
   const maybeToken = verify(login, password)
 
   if(maybeToken.isEmpty()) {
-    return Failure(new Error("Name or password is incorrect"));
+    return new Failure<Token>(new Error("Name or password is incorrect"));
   }
 
   return maybeToken
-    .map(token => Success(token))
+    .map(token => new Success(token))
     .getOrThrow()
-});
+}
 
 const maybeToken = await login("john@email.com", "123");
 

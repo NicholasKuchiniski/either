@@ -6,7 +6,7 @@ describe("Maybe", () => {
     it("should return the mapped value", () => {
       // given
       const value = 1;
-      const maybe = Maybe<number>(value);
+      const maybe = new Maybe<number>(value);
 
       // then
       expect(maybe.map((value) => value * 2).getOrThrow()).toBe(2);
@@ -15,7 +15,7 @@ describe("Maybe", () => {
     it("should return none when original value is empty", () => {
       // given
       const value = 1;
-      const maybe = Maybe<number>(null);
+      const maybe = new Maybe<number>(null);
 
       // then
       expect(maybe.map((value) => value * 2).getOrElse(() => value)).toBe(
@@ -28,7 +28,7 @@ describe("Maybe", () => {
     it("should return value when value is not empty", () => {
       // given
       const value = faker.lorem.words();
-      const maybe = Maybe(value);
+      const maybe = new Maybe(value);
 
       // then
       expect(maybe.getOrElse(() => "")).toBe(value);
@@ -37,7 +37,7 @@ describe("Maybe", () => {
     it("should return else when value is empty", () => {
       // given
       const value = faker.lorem.words();
-      const maybe = Maybe<string>(null);
+      const maybe = new Maybe<string>(null);
 
       // then
       expect(maybe.getOrElse(() => value)).toBe(value);
@@ -48,7 +48,7 @@ describe("Maybe", () => {
     it("should return value when value is not empty", () => {
       // given
       const value = faker.lorem.words();
-      const maybe = Maybe(value);
+      const maybe = new Maybe(value);
 
       // then
       expect(maybe.getOrThrow()).toBe(value);
@@ -56,7 +56,7 @@ describe("Maybe", () => {
 
     it("should throw error when value is empty", () => {
       // given
-      const maybe = Maybe<string>(null);
+      const maybe = new Maybe<string>(null);
 
       // then
       expect(() => maybe.getOrThrow()).toThrow("Value is not defined.");
@@ -67,7 +67,7 @@ describe("Maybe", () => {
     it("should return true when value is defined", () => {
       // given
       const value = faker.lorem.words();
-      const maybe = Maybe(value);
+      const maybe = new Maybe(value);
 
       // then
       expect(maybe.isDefined()).toBeTruthy();
@@ -75,7 +75,7 @@ describe("Maybe", () => {
 
     it("should return false when value is empty", () => {
       // given
-      const maybe = Maybe(null);
+      const maybe = new Maybe(null);
 
       // then
       expect(maybe.isDefined()).toBeFalsy();
@@ -85,7 +85,7 @@ describe("Maybe", () => {
   describe(".isEmpty()", () => {
     it("should return false when value is empty", () => {
       // given
-      const maybe = Maybe(null);
+      const maybe = new Maybe(null);
 
       // then
       expect(maybe.isEmpty()).toBeTruthy();
@@ -94,7 +94,7 @@ describe("Maybe", () => {
     it("should return false when value is not empty", () => {
       // given
       const value = faker.lorem.words();
-      const maybe = Maybe(value);
+      const maybe = new Maybe(value);
 
       // then
       expect(maybe.isEmpty()).toBeFalsy();
@@ -107,7 +107,7 @@ describe("Some", () => {
     it("should return the value", () => {
       // given
       const value = faker.lorem.words();
-      const some = Some(value);
+      const some = new Some(value);
 
       // then
       expect(some.get()).toBe(value);
@@ -118,7 +118,7 @@ describe("Some", () => {
 describe("None", () => {
   it("should create a empty maybe", () => {
     // given
-    const none = None();
+    const none = new None();
 
     // then
     expect(none.isEmpty).toBeTruthy();

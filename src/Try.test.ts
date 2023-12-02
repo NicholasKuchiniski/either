@@ -1,30 +1,52 @@
 import { faker } from "@faker-js/faker";
-import { Failure, Success, Try } from "~/Try";
+import { Failure, Success } from "~/Try";
 
-describe("Test", () => {
+describe("Success", () => {
   describe(".isSuccess()", () => {
-    it("should return true when task result is a success", async () => {
+    it("should return true", async () => {
       // given
       const value = faker.lorem.words();
-      const task = await Try(async () => Success(value));
+      const success = new Success(value);
 
       // then
-      expect(task.isSuccess()).toBeTruthy();
-      expect(task.isFailure()).toBeFalsy();
-      expect(task.get()).toEqual(value);
+      expect(success.isSuccess()).toBeTruthy();
+      expect(success.get()).toEqual(value);
     });
   });
 
   describe(".isFailure()", () => {
-    it("should return true when task result is a failure", async () => {
+    it("should return false", async () => {
       // given
-      const error = new Error();
-      const task = await Try(async () => Failure(error));
+      const value = faker.lorem.words();
+      const success = new Success(value);
 
       // then
-      expect(task.isFailure()).toBeTruthy();
-      expect(task.isSuccess()).toBeFalsy();
-      expect(task.get()).toEqual(error);
+      expect(success.isFailure()).toBeFalsy();
+    });
+  });
+});
+
+describe("Failure", () => {
+  describe(".isFailure()", () => {
+    it("should return true", async () => {
+      // given
+      const error = new Error();
+      const failure = new Failure(error);
+
+      // then
+      expect(failure.isFailure()).toBeTruthy();
+      expect(failure.get()).toEqual(error);
+    });
+  });
+
+  describe(".isSuccess()", () => {
+    it("should return false", async () => {
+      // given
+      const error = new Error();
+      const failure = new Failure(error);
+
+      // then
+      expect(failure.isSuccess()).toBeFalsy();
     });
   });
 });

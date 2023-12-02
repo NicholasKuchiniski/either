@@ -1,25 +1,23 @@
-export type Maybe<A> = _Maybe<A>;
-
-class _Maybe<A> {
+export class Maybe<A> {
   public constructor(protected value?: A | null) {}
 
-  public isDefined(): this is _Some<A> & boolean {
+  public isDefined(): this is Some<A> & boolean {
     return this.value !== undefined && this.value !== null;
   }
 
-  public isEmpty(): this is _None<A> & boolean {
+  public isEmpty(): this is None<A> & boolean {
     return this.value === undefined || this.value === null;
   }
   protected get() {
     return this.value as A;
   }
 
-  public map<B>(mapTo: (value: A) => B): _Maybe<B> {
+  public map<B>(mapTo: (value: A) => B): Maybe<B> {
     if (this.value) {
-      return new _Maybe(mapTo(this.value));
+      return new Maybe(mapTo(this.value));
     }
 
-    return None();
+    return new None();
   }
 
   public getOrElse<B = A>(orElse: () => B): A | B {
@@ -37,7 +35,7 @@ class _Maybe<A> {
   }
 }
 
-class _Some<A> extends _Maybe<A> {
+export class Some<A> extends Maybe<A> {
   public constructor(protected value: A) {
     super(value);
   }
@@ -47,14 +45,8 @@ class _Some<A> extends _Maybe<A> {
   }
 }
 
-class _None<A> extends _Maybe<A> {
+export class None<A> extends Maybe<A> {
   public constructor() {
     super(null);
   }
 }
-
-export const Maybe = <T>(value?: T | null) => new _Maybe(value);
-
-export const Some = <T>(value: T) => new _Some(value);
-
-export const None = <T>() => new _None<T>();
