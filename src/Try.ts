@@ -40,32 +40,9 @@ class _Failure<A> {
   }
 }
 
-class _Try<A> implements PromiseLike<Result<A>> {
-  private promise!: Promise<Result<A>>;
+export type Try<A> = PromiseLike<Result<A>>;
 
-  public constructor(task: Task<A>) {
-    this.promise = task();
-  }
-
-  // istanbul ignore next
-  then<B = Result<A>>(onThen: OnThen<Result<A>, B>) {
-    return this.promise.then(onThen);
-  }
-
-  // istanbul ignore next
-  catch(onCatch: OnCatch<Result<A>>) {
-    return this.promise.catch(onCatch);
-  }
-
-  // istanbul ignore next
-  finally(onFinally: OnFinally) {
-    return this.promise.finally(onFinally);
-  }
-}
-
-export type Try<A> = _Try<A>;
-
-export const Try = <A>(task: Task<A>) => new _Try(task);
+export const Try = <A>(task: Task<A>) => task();
 
 export const Success = <A>(value: A) => new _Success(value);
 
