@@ -1,13 +1,18 @@
 export class Maybe<A> {
   public constructor(protected value?: A | null) {}
 
-  public isDefined(): this is Some<A> & boolean {
-    return this.value !== undefined && this.value !== null;
+  public isDefined(this: None<A> | Some<A>): this is Some<A> {
+    return this.map((value) => value !== undefined && value !== null).getOrElse(
+      () => false,
+    );
   }
 
-  public isEmpty(): this is None<A> & boolean {
-    return this.value === undefined || this.value === null;
+  public isEmpty(this: None<A> | Some<A>): this is None<A> {
+    return this.map((value) => value === undefined || value === null).getOrElse(
+      () => true,
+    );
   }
+
   protected get() {
     return this.value as A;
   }
