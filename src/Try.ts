@@ -63,6 +63,8 @@ class PromiseTry<A> implements PromiseLike<Result<A>> {
   }
 }
 
+export type Try<A> = PromiseTry<Task<A>>;
+
 export const Try = <A>(task: Task<A>) => new PromiseTry(task);
 
 export const Success = <A>(value: A) => new _Success(value);
