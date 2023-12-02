@@ -15,11 +15,11 @@ export class Success<A> {
     return this.result;
   }
 
-  public isSuccess(): this is Success<A> & boolean {
+  public isSuccess(this: Try<A>): this is Success<A> {
     return true;
   }
 
-  public isFailure(): this is Failure<A> & boolean {
+  public isFailure(this: Try<A>): this is Failure<A> {
     return false;
   }
 }
@@ -31,11 +31,11 @@ export class Failure<A> {
     return this.error;
   }
 
-  public isSuccess(): this is Success<A> & boolean {
+  public isSuccess(this: Try<A>): this is Success<A> {
     return false;
   }
 
-  public isFailure(): this is Failure<A> & boolean {
+  public isFailure(this: Try<A>): this is Failure<A> {
     return true;
   }
 }
