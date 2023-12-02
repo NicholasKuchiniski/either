@@ -1,12 +1,12 @@
-type Result<A> = _Success<A> | _Failure<A>;
+export type Result<A> = _Success<A> | _Failure<A>;
 
-type Task<A> = () => Promise<Result<A>>;
+export type Task<A> = () => Promise<Result<A>>;
 
-type OnThen<A, B> = (value: A) => B | PromiseLike<B>;
+export type OnThen<A, B> = (value: A) => B | PromiseLike<B>;
 
-type OnCatch<A> = (reason: unknown) => A | PromiseLike<A>;
+export type OnCatch<A> = (reason: unknown) => A | PromiseLike<A>;
 
-type OnFinally = () => void;
+export type OnFinally = () => void;
 
 class _Success<A> {
   public constructor(private result: A) {}
@@ -40,7 +40,7 @@ class _Failure<A> {
   }
 }
 
-class PromiseTry<A> implements PromiseLike<Result<A>> {
+class _Try<A> implements PromiseLike<Result<A>> {
   private promise!: Promise<Result<A>>;
 
   public constructor(task: Task<A>) {
@@ -63,9 +63,9 @@ class PromiseTry<A> implements PromiseLike<Result<A>> {
   }
 }
 
-export type Try<A> = PromiseTry<Task<A>>;
+export type Try<A> = _Try<A>;
 
-export const Try = <A>(task: Task<A>) => new PromiseTry(task);
+export const Try = <A>(task: Task<A>) => new _Try(task);
 
 export const Success = <A>(value: A) => new _Success(value);
 
