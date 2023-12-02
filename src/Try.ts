@@ -69,4 +69,4 @@ export const Try = <A>(task: Task<A>) => new _Try(task);
 
 export const Success = <A>(value: A) => new _Success(value);
 
-export const Failure = (error: Error) => new _Failure(error);
+export const Failure = <A>(error: Error) => new _Failure<A>(error);
