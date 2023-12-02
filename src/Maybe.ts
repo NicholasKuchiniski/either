@@ -3,11 +3,11 @@ export type Maybe<A> = _Maybe<A>;
 class _Maybe<A> {
   public constructor(protected value?: A | null) {}
 
-  public isDefined(): this is _Some<A> {
+  public isDefined(): this is _Some<A> & boolean {
     return this.value !== undefined && this.value !== null;
   }
 
-  public isEmpty(): this is _None<A> {
+  public isEmpty(): this is _None<A> & boolean {
     return this.value === undefined || this.value === null;
   }
   protected get() {

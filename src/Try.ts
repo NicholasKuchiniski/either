@@ -15,11 +15,11 @@ class _Success<A> {
     return this.result;
   }
 
-  public isSuccess(): this is _Success<A> {
+  public isSuccess(): this is _Success<A> & boolean {
     return true;
   }
 
-  public isFailure(): this is _Failure<A> {
+  public isFailure(): this is _Failure<A> & boolean {
     return false;
   }
 }
@@ -31,11 +31,11 @@ class _Failure<A> {
     return this.error;
   }
 
-  public isSuccess(): this is _Success<A> {
+  public isSuccess(): this is _Success<A> & boolean {
     return false;
   }
 
-  public isFailure(): this is _Failure<A> {
+  public isFailure(): this is _Failure<A> & boolean {
     return true;
   }
 }
