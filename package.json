@@ -1,6 +1,6 @@
 {
   "name": "@nicholaskuchiniski/either",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
@@ -11,7 +11,7 @@
     "build": "rimraf dist && tspc -d -P tsconfig.build.json && cp ./package.json ./dist/package.json",
     "test": "jest",
     "test:coverage": "jest --collectCoverage",
-    "lint": "eslint ."
+    "lint": "eslint . && tspc --noEmit"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.3.1",

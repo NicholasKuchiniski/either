@@ -22,7 +22,7 @@ class _Maybe<A> {
     return None();
   }
 
-  public getOrElse(orElse: () => A) {
+  public getOrElse<B = A>(orElse: () => B): A | B {
     return this.value === undefined || this.value === null
       ? orElse()
       : this.value;
