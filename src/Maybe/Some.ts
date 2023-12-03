@@ -8,4 +8,8 @@ export class Some<A> extends SomeOrNone<A> {
   public get() {
     return this.value;
   }
+
+  public map<B>(mapTo: (value: A) => B): Some<B> {
+    return new Some(mapTo(this.value));
+  }
 }
