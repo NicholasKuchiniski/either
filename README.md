@@ -2,74 +2,95 @@
 
 Either is a package with typescript classes/functions that helps you write more "fluent" typescript code. It was inspired by [monapt](https://github.com/jklmli/monapt) but since monapt didn't have somethings i need, i decided to create my own version of it.
 
-## Install
-```
-yarn add @nicholaskuchiniski/either
-```
+## Why not monapt ? What are the differences ?
 
-### Usage
+Both libraries can achieve similar results, but i wrote this one because i had some problems with the way `monapt` dealt with typescript and its own methods, example:
 
-#### Maybe
+### Option/Maybe comparasion
 
-You can check a full usage example inside [Maybe.test.ts](./src/Maybe.test.ts).
+> Monapt
 
 ```ts
-  const users: User[] = []
+import { Option, Some } from "monapt";
 
-  function getUser(id: string) {
-    return new Maybe(
-      users.find(user => user.id);
-    );
-  }
+const maybeSomething = Option<string>(undefined);
+const something = new Some("");
 
-  const user = getUser("");
+maybeSomething.get(); // No type errors, even though this is a undefined value, instead you get an error being thrown on runtime.
+maybeSomething.getOrElse(() => 0); // The type of this now is number, instead of string | number
 
-  user.get() // ❌ Throws errors because you didn't verified with .isDefined() first;
-
-  if(user.isDefined()) {
-    user.get() // ✅
-  }
-
-  if(user.isEmpty()) {
-    throw new Error("User not found")
-  }
-
-  const name = user
-    .map(user => `Mr. ${user.name}`)
-    .getOrThrow() // ✅
-
-  const defaultName = user
-    .map(user => `Mr. ${user.name}`)
-    .getOrElse(() => "Mr. John Smith") // ✅
+something.map((a) => a); // The return of this is a Option, instead of a Some
 ```
 
-### Try
-
-You can check a full usage example inside [Try.test.ts](./src/Try.test.ts).
+> Either
 
 ```ts
-const login = (email: string, password: string): Try<Token> => {
-  const maybeToken = verify(login, password)
+import { Maybe, Some } from "@nicholaskuchiniski/either";
 
-  if(maybeToken.isEmpty()) {
-    return new Failure<Token>(new Error("Name or password is incorrect"));
-  }
+const maybeSomething = Maybe<string>(undefined);
+const something = new Some("");
 
-  return maybeToken
-    .map(token => new Success(token))
-    .getOrThrow()
-}
+maybeSomething.get(); // Type error because this method is only accessible in a "Some", so you can't access it without verifying first.
+maybeSomething.getOrElse(() => 0); // The type of this is now string | number.
 
-const maybeToken = await login("john@email.com", "123");
+something.map((a) => a); // The return of this is a Some, so you can access the .get() method without type errors.
 
+// In order to use the .get() method, you have to check for .isDefined() or .isEmpty() first.
 
-if(maybeToken.isSuccess()) {
-  console.log("Logged with success", maybeToken.get())
-}
-
-if(maybeToken.isFailure()) {
-  console.log("Login failed");
-
-  throw maybeToken.get()
+if (maybeSomething.isDefined()) {
+  maybeSomething.get(); // inside this if, maybeSomething is now Some<string>
 }
 ```
+
+### Try comparasion
+
+> Monapt
+
+```ts
+import { Failure, Try } from "monapt";
+
+function failure(): Try<string> {
+  return new Failure(new Error());
+}
+
+const failureResult = failure();
+
+if (failureResult.isSuccess) {
+  failureResult.get(); // This method is available and its typed as "string", even though this returned an error. Calling this will result in a runtime error.
+}
+
+```
+
+> Either
+
+```ts
+import { Try, Failure } from "@nicholaskuchiniski/either";
+
+function failure(): Try<string> {
+  return new Failure(new Error());
+}
+
+const failureResult = failure();
+
+if (failureResult.isSuccess()) {
+  failureResult.get(); // This method is available and its typed as "string".
+}
+
+if (failureResult.isFailure()) {
+  failureResult.get(); // This method is available and its typed as "Error", so you get the failure reason instead of receiving a runtime exception..
+}
+
+failureResult.get(); // This is typed as string | Error, so you can't by mistake send this somewhere without verifying it first.
+```
+
+In short, this library offers better typescript compatibility and "force" you to verify either of the results (Some/None, Failure/Success) before accessing the values, it also has a better tyiping system for methods such as `getOrElse` and `map`.
+
+# Install
+
+```bash
+npm add @nicholaskuchiniski/either
+```
+
+# Documentation
+
+This ia pretty simple library and in some minutes you can understand how things works by looking at the source code, most of the files have a `.test.ts` file that tests the behavior of the class, you can use those files to know how certain methods works under the hood.
