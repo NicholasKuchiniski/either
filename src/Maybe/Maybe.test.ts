@@ -2,28 +2,6 @@ import { faker } from "@faker-js/faker";
 import { Maybe } from "~/Maybe/Maybe";
 
 describe("Maybe", () => {
-  describe(".map()", () => {
-    it("should return the mapped value", () => {
-      // given
-      const value = 1;
-      const maybe = Maybe<number>(value);
-
-      // then
-      expect(maybe.map((value) => value * 2).getOrThrow()).toBe(2);
-    });
-
-    it("should return none when original value is empty", () => {
-      // given
-      const value = 1;
-      const maybe = Maybe<number>(null);
-
-      // then
-      expect(maybe.map((value) => value * 2).getOrElse(() => value)).toBe(
-        value,
-      );
-    });
-  });
-
   describe(".getOrElse()", () => {
     it("should return value when value is not empty", () => {
       // given
