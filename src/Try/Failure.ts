@@ -8,4 +8,8 @@ export class Failure<A> extends SuccessOrFailure<A> {
   public get() {
     return this.error;
   }
+
+  public map<B>(): Failure<B> {
+    return new Failure<B>(this.error);
+  }
 }

@@ -10,4 +10,16 @@ describe("Failure", () => {
       expect(failure.isFailure()).toBeTruthy();
     });
   });
+
+  describe(".map()", () => {
+    it("should return failure", () => {
+      // given
+      const error = new Error();
+      const failure = new Failure(error).map();
+
+      // then
+      expect(failure.isFailure()).toBeTruthy();
+      expect(failure.get()).toBe(error);
+    });
+  });
 });

@@ -21,16 +21,7 @@ export abstract class SomeOrNone<A> {
     return isNil(value);
   }
 
-  public map<B>(mapTo: (value: A) => B): Maybe<B> {
-    const { Some } = require("~/Maybe/Some");
-    const { None } = require("~/Maybe/None");
-
-    if (this.value) {
-      return new Some(mapTo(this.value));
-    }
-
-    return new None();
-  }
+  public abstract map<B>(mapTo: (value: A) => B): Maybe<B>;
 
   public getOrElse<B = A>(orElse: () => B): A | B {
     return this.value === undefined || this.value === null
