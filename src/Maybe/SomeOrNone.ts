@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import type { MaybeNil } from "tsdef";
 
 import type { Maybe } from "~/Maybe/Maybe";
 import type { None } from "~/Maybe/None";
 import type { Some } from "~/Maybe/Some";
+import { MaybeNil } from "~/types";
 import { isNil } from "~/utils";
 
 export abstract class SomeOrNone<A> {
